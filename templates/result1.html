@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>Searching Tweets Results</title>
+  <meta name="description" content="The search engine by TTDS_Group4.">
+  <meta name="author" value="GROUP4">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='result1.css')}}">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <div class="result_container">
+    
+    <div class="result_top">
+      <div class="result_header" style="margin-left:235px">
+        <div class="result_search">
+          <form id="search-form" class="search_form" action="/" method="POST">
+           
+              <input id="q1" name="query" class="search_input" id="search-input" type="search" value="{{ value }}" maxlength="100" title="Search" aria-label="Search"
+                     autocomplete="off" dir="ltr" spellcheck="false" autofocus="autofocus" onkeyup="checkValue()" onchange="checkValue()">                                  
+             <input id="reset-button" class="reset_button" type="reset" value="Reset" onclick="resetForm()" aria-label="Clear search field" title="Reset">
+			 <input id="search-button" class="search_button" type="submit" value="Search" onclick="this.form.target='_blank';" aria-label="Search" title="Search">
+			 
+          </form>
+        </div>
+        
+        <a class="result_logo"></a>
+      
+      </div>
+    </div>
+    
+    <div class="result_main" style="padding-left:150px">
+      <div class="content content_body">
+        <span class="results_len" style="font-size: 20px">Searching results {{ length }}</span><br><br>
+     
+        <div class="results_body">
+          <span class="results_label">Searching Results</span>
+
+        {% for doc in docs %}
+          <div class="res_tweet">
+           <a class="res_account" href="https://twitter.com/{{ doc[2] }}" target="_blank">
+            <div class="acc_head acc_hover">
+              <img width="116" height="116" src="{{ doc[4] }}">
+            </div>
+           </a>
+
+           <br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+           <span><a class="res_title"  href="https://twitter.com/{{ doc[2] }}" target="_blank"> @ {{doc[2]|safe}}</a>
+              <style type="text/css">.res_title{text-decoration:none} .res_title:hover{text-decoration:underline;color: #551A8B;}.res_title:active{color: #551A8B;}</style></span><br><br><br>
+           <span><a class="res_twi"  href="{{ doc[0] }}" target="_blank"> {{ doc[1]|safe }}
+           </a><style type="text/css">.res_twi{text-decoration:none;}
+           .res_twi:link {color: #3B3B3B;}.res_twi:visited{color:#551A8B;}.res_twi:hover{text-decoration:underline;color: #551A8B;}.res_twi:active{color:#551A8B;}
+           </style></span>
+           <p class="res_time" style="color:#4876FF"> Post Time：{{ doc[3] }} </p><br>
+          </div>
+        {% endfor %}
+
+        </div><br>
+
+          <script>
+             if ({{ length }} == 0)
+             {
+                 document.write(" <div id=\"no_result\" class=\"no_results\">\n" +
+                     "              <p class=\"title\"><strong>Sorry, no results related to \"{{ value }}\"</strong></p>\n" +
+                     "              <p class=\"tips\">Tips:</p>\n" +
+                     "              <ul>\n" +
+                     "                  <li>Please check your input spelling.</li>\n" +
+                     "                  <li>Try various keywords.</li>\n" +
+                     "              </ul>\n" +
+                     "          </div><br><br><br>");
+             }
+         </script>
+          <br>
+      </div>
+    </div>
+    
+    <div class="result_footer">
+      <div class="footer_main">
+        <p><span>Copyright © TTDS_Group4</span></p>
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+<script src="scripts/parameters.js"></script>
+<script src="scripts/functions.js"></script>
+</body>
+
+<script type="text/javascript" charset="uft-8">
+
+function getParameter(param)
+{
+
+var q1 = document.getElementById('q1');
+var query1 = decodeURI(window.location.search);
+console.log(query1);
+var iLen = param.length;//3
+var iStart = query1.indexOf(param);//1
+
+ 
+
+if (iStart == -1)
+return "";
+iStart += iLen + 1;//4
+var va = query1.substring(iStart);
+q1.value = va;
+
+
+}
+
+$(document).ready(function () { 
+var one = getParameter('query');
+});
+
+</script>
+
+</html>
